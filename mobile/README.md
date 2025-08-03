@@ -40,22 +40,21 @@ Before running this app, make sure you have:
    npm install
    ```
 
-3. **Environment Setup**
-   ```bash
-   # Run the environment setup script
-   ./setup-env.sh
-   
-   # Or manually copy the template
-   cp .env.example .env
-   ```
-   
-   Then edit `.env` file with your Firebase configuration:
+3. **Firebase Configuration**
    - Create a Firebase project at [Firebase Console](https://console.firebase.google.com/)
    - Enable Firestore database
-   - Get your Firebase configuration from Project Settings
-   - Update the `.env` file with your actual Firebase credentials
-   
-   **Note**: The `.env` file is gitignored and will not be committed to version control.
+   - Get your Firebase configuration
+   - Update `src/config/firebase.js` with your Firebase config:
+   ```javascript
+   const firebaseConfig = {
+     apiKey: "YOUR_API_KEY",
+     authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+     projectId: "YOUR_PROJECT_ID",
+     storageBucket: "YOUR_PROJECT_ID.appspot.com",
+     messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+     appId: "YOUR_APP_ID"
+   };
+   ```
 
 4. **Android Setup**
    ```bash
