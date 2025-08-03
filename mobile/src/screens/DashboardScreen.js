@@ -14,6 +14,7 @@ import {
 import { PieChart, LineChart, BarChart } from 'react-native-chart-kit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Svg, { Circle, G, Path } from 'react-native-svg';
+import { useFocusEffect } from '@react-navigation/native';
 import { 
   getExpenses, 
   getExpensesByTimeFilter, 
@@ -125,6 +126,14 @@ const DashboardScreen = () => {
     loadBudgetData();
   }, []);
 
+  // Refresh data when screen comes into focus
+  useFocusEffect(
+    React.useCallback(() => {
+      loadExpenses();
+      loadBudgetData();
+    }, [])
+  );
+
   useEffect(() => {
     if (expenses.length > 0) {
       loadFilteredExpenses();
@@ -152,8 +161,6 @@ const DashboardScreen = () => {
     try {
       setLoading(true);
       const data = await getExpenses();
-      console.log('All expenses loaded:', data.length);
-      console.log('Sample expense:', data[0]);
       setExpenses(data);
       
       // Calculate current month total (unaffected by time filter)
@@ -162,7 +169,6 @@ const DashboardScreen = () => {
       // Calculate total amount from all expenses
       const total = data.reduce((sum, expense) => sum + parseFloat(expense.amount), 0);
       setTotalAmount(total);
-      console.log('Total amount calculated:', total);
     } catch (error) {
       Alert.alert('Error', 'Failed to load expenses');
       console.error('Error loading expenses:', error);
@@ -190,15 +196,10 @@ const DashboardScreen = () => {
     
     const total = currentMonthExpenses.reduce((sum, expense) => sum + expense.amount, 0);
     setCurrentMonthTotal(total);
-    console.log('Current month total:', total);
   };
 
   const loadFilteredExpenses = async () => {
     try {
-      console.log('=== LOADING FILTERED EXPENSES ===');
-      console.log('Time filter:', selectedTimeFilter);
-      console.log('Category filter:', selectedCategory);
-      
       let data;
       
       // Always get data based on time filter first
@@ -225,8 +226,6 @@ const DashboardScreen = () => {
       }
       
       setFilteredExpenses(data);
-      
-      console.log('Filtered expenses loaded:', data.length);
     } catch (error) {
       console.error('Error loading filtered expenses:', error);
       Alert.alert('Error', 'Failed to load filtered expenses');
@@ -300,13 +299,7 @@ const DashboardScreen = () => {
     // Calculate total amount
     const totalAmount = Object.values(categoryTotals).reduce((sum, amount) => sum + amount, 0);
     
-    console.log('=== PIE CHART DEBUG ===');
-    console.log('All expenses count:', expenses.length);
-    console.log('Category totals:', categoryTotals);
-    console.log('Total amount:', totalAmount);
-    
     if (totalAmount === 0) {
-      console.log('No expenses found for pie chart');
       return [];
     }
     
@@ -372,12 +365,10 @@ const DashboardScreen = () => {
         legendFontSize: 11,
       };
       
-      console.log('Chart data item:', dataItem);
       return dataItem;
     });
 
     const sortedData = chartData.sort((a, b) => b.population - a.population);
-    console.log('Final sorted pie chart data:', sortedData);
     return sortedData;
   };
 
@@ -449,10 +440,7 @@ const DashboardScreen = () => {
       budgetData.push(monthlyBudgetData[month] || 0);
     }
 
-    console.log('Monthly Expenses Data:', monthlyExpenses);
-    console.log('Monthly Budget Data:', monthlyBudgetData);
-    console.log('Chart Expense Data:', expenseData);
-    console.log('Chart Budget Data:', budgetData);
+
 
     return {
       labels: months,
@@ -600,8 +588,6 @@ const DashboardScreen = () => {
                     <View style={styles.chartContainer}>
                       {(() => {
                         const pieData = getPieChartData();
-                        console.log('Pie chart data:', pieData);
-                        
                         if (pieData.length === 0) {
                           return (
                             <View style={styles.pieChartEmptyState}>

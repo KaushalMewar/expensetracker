@@ -14,6 +14,7 @@ import {
   Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useFocusEffect } from '@react-navigation/native';
 import { 
   addMonthlyBudget, 
   getMonthlyBudgets, 
@@ -63,6 +64,13 @@ const BudgetScreen = ({ navigation }) => {
     setSelectedMonth(now.getMonth() + 1);
     setSelectedYear(now.getFullYear());
   }, []);
+
+  // Refresh data when screen comes into focus
+  useFocusEffect(
+    React.useCallback(() => {
+      loadBudgets();
+    }, [])
+  );
 
   const loadBudgets = async () => {
     try {

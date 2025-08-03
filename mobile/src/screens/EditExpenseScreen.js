@@ -28,15 +28,12 @@ const EditExpenseScreen = ({ route, navigation }) => {
       if (expense.date && typeof expense.date === 'object' && expense.date.toDate) {
         // Handle Firestore Timestamp
         const parsedDate = expense.date.toDate();
-        console.log('Parsed Firestore timestamp:', parsedDate);
         return parsedDate;
       } else if (typeof expense.date === 'string') {
         // Handle string date
         const parsedDate = new Date(expense.date);
-        console.log('Parsed string date:', parsedDate);
         return parsedDate;
       } else {
-        console.log('Using current date as fallback');
         return new Date();
       }
     } catch (error) {
@@ -67,9 +64,6 @@ const EditExpenseScreen = ({ route, navigation }) => {
       // Create a proper datetime for the selected date (current time on that date)
       const now = new Date();
       const selectedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
-      console.log('Selected date object:', selectedDate);
-      console.log('Selected date ISO string:', selectedDate.toISOString());
-      console.log('Selected date local string:', selectedDate.toLocaleDateString());
       
       await updateExpense(expense.id, selectedDate, category, parseFloat(amount), comment);
       
@@ -150,7 +144,6 @@ const EditExpenseScreen = ({ route, navigation }) => {
                 style={styles.dateButton}
                 onPress={() => {
                   try {
-                    console.log('Opening DatePicker with date:', date);
                     setShowDatePicker(true);
                   } catch (error) {
                     console.error('Error opening DatePicker:', error);
@@ -173,7 +166,6 @@ const EditExpenseScreen = ({ route, navigation }) => {
               mode="date"
               onConfirm={(selectedDate) => {
                 try {
-                  console.log('DatePicker - Selected date:', selectedDate);
                   setShowDatePicker(false);
                   setDate(selectedDate);
                 } catch (error) {
@@ -182,7 +174,6 @@ const EditExpenseScreen = ({ route, navigation }) => {
                 }
               }}
               onCancel={() => {
-                console.log('DatePicker - Cancelled');
                 setShowDatePicker(false);
               }}
               maximumDate={new Date()}

@@ -16,22 +16,14 @@ import { db } from '../config/firebase';
 // Add expense to Firestore
 export const addExpense = async (date, category, amount, comment) => {
   try {
-    console.log('=== ADDING EXPENSE ===');
-    console.log('Date:', date, 'Type:', typeof date);
-    console.log('Category:', category);
-    console.log('Amount:', amount);
-    console.log('Comment:', comment);
-    
     // Convert date to Firestore Timestamp if it's a Date object
     let dateToStore = date;
     if (date instanceof Date) {
       dateToStore = Timestamp.fromDate(date);
-      console.log('Converted Date to Timestamp:', dateToStore);
     } else if (typeof date === 'string') {
       // Handle string dates by parsing them
       const parsedDate = new Date(date);
       dateToStore = Timestamp.fromDate(parsedDate);
-      console.log('Converted string date to Timestamp:', dateToStore);
     }
     
     const expenseData = {
@@ -42,10 +34,7 @@ export const addExpense = async (date, category, amount, comment) => {
       createdAt: Timestamp.now()
     };
     
-    console.log('Expense data to save:', expenseData);
-    
     const docRef = await addDoc(collection(db, 'expenses'), expenseData);
-    console.log('Expense added successfully with ID:', docRef.id);
     return docRef.id;
   } catch (error) {
     console.error('Error adding expense: ', error);
@@ -56,28 +45,17 @@ export const addExpense = async (date, category, amount, comment) => {
 // Get all expenses from Firestore (for backward compatibility)
 export const getExpenses = async () => {
   try {
-    console.log('=== GETTING ALL EXPENSES ===');
     const querySnapshot = await getDocs(collection(db, 'expenses'));
-    
-    console.log('Total documents found:', querySnapshot.size);
     
     const expenses = [];
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      console.log('Document ID:', doc.id);
-      console.log('  - Date:', data.date, 'Type:', typeof data.date);
-      console.log('  - Category:', data.category);
-      console.log('  - Amount:', data.amount);
-      console.log('  - Comment:', data.comment);
-      console.log('  - CreatedAt:', data.createdAt);
-      
       expenses.push({
         id: doc.id,
         ...data
       });
     });
     
-    console.log('Total expenses retrieved:', expenses.length);
     return expenses;
   } catch (error) {
     console.error('Error getting expenses: ', error);
@@ -88,16 +66,9 @@ export const getExpenses = async () => {
 // Get expenses by date range with server-side filtering
 export const getExpensesByDateRange = async (startDate, endDate) => {
   try {
-    console.log('=== GETTING EXPENSES BY DATE RANGE ===');
-    console.log('Start date:', startDate);
-    console.log('End date:', endDate);
-    
     // Convert dates to Firestore Timestamps if they're Date objects
     const startTimestamp = startDate instanceof Date ? Timestamp.fromDate(startDate) : startDate;
     const endTimestamp = endDate instanceof Date ? Timestamp.fromDate(endDate) : endDate;
-    
-    console.log('Start timestamp:', startTimestamp);
-    console.log('End timestamp:', endTimestamp);
     
     const q = query(
       collection(db, 'expenses'),
@@ -107,19 +78,16 @@ export const getExpensesByDateRange = async (startDate, endDate) => {
     );
     
     const querySnapshot = await getDocs(q);
-    console.log('Documents found in date range:', querySnapshot.size);
     
     const expenses = [];
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      console.log('Document ID:', doc.id, 'Date:', data.date);
       expenses.push({
         id: doc.id,
         ...data
       });
     });
     
-    console.log('Total expenses in date range:', expenses.length);
     return expenses;
   } catch (error) {
     console.error('Error getting expenses by date range: ', error);
@@ -130,9 +98,6 @@ export const getExpensesByDateRange = async (startDate, endDate) => {
 // Get expenses by category with server-side filtering
 export const getExpensesByCategory = async (category) => {
   try {
-    console.log('=== GETTING EXPENSES BY CATEGORY ===');
-    console.log('Category:', category);
-    
     const q = query(
       collection(db, 'expenses'),
       where('category', '==', category),
@@ -140,19 +105,16 @@ export const getExpensesByCategory = async (category) => {
     );
     
     const querySnapshot = await getDocs(q);
-    console.log('Documents found for category:', querySnapshot.size);
     
     const expenses = [];
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      console.log('Document ID:', doc.id, 'Category:', data.category);
       expenses.push({
         id: doc.id,
         ...data
       });
     });
     
-    console.log('Total expenses for category:', expenses.length);
     return expenses;
   } catch (error) {
     console.error('Error getting expenses by category: ', error);
@@ -163,17 +125,9 @@ export const getExpensesByCategory = async (category) => {
 // Get expenses by date range AND category (combined filtering)
 export const getExpensesByDateRangeAndCategory = async (startDate, endDate, category) => {
   try {
-    console.log('=== GETTING EXPENSES BY DATE RANGE AND CATEGORY ===');
-    console.log('Start date:', startDate);
-    console.log('End date:', endDate);
-    console.log('Category:', category);
-    
     // Convert dates to Firestore Timestamps if they're Date objects
     const startTimestamp = startDate instanceof Date ? Timestamp.fromDate(startDate) : startDate;
     const endTimestamp = endDate instanceof Date ? Timestamp.fromDate(endDate) : endDate;
-    
-    console.log('Start timestamp:', startTimestamp);
-    console.log('End timestamp:', endTimestamp);
     
     const q = query(
       collection(db, 'expenses'),
@@ -184,19 +138,16 @@ export const getExpensesByDateRangeAndCategory = async (startDate, endDate, cate
     );
     
     const querySnapshot = await getDocs(q);
-    console.log('Documents found in date range and category:', querySnapshot.size);
     
     const expenses = [];
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      console.log('Document ID:', doc.id, 'Date:', data.date, 'Category:', data.category);
       expenses.push({
         id: doc.id,
         ...data
       });
     });
     
-    console.log('Total expenses in date range and category:', expenses.length);
     return expenses;
   } catch (error) {
     console.error('Error getting expenses by date range and category: ', error);
@@ -207,9 +158,6 @@ export const getExpensesByDateRangeAndCategory = async (startDate, endDate, cate
 // Get expenses for specific time periods (DAILY, WEEKLY, MONTHLY, YEAR)
 export const getExpensesByTimeFilter = async (timeFilter) => {
   try {
-    console.log('=== GETTING EXPENSES BY TIME FILTER ===');
-    console.log('Time filter:', timeFilter);
-    
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     
@@ -249,9 +197,6 @@ export const getExpensesByTimeFilter = async (timeFilter) => {
       default:
         throw new Error(`Invalid time filter: ${timeFilter}`);
     }
-    
-    console.log('Calculated start date:', startDate.toISOString());
-    console.log('Calculated end date:', endDate.toISOString());
     
     return await getExpensesByDateRange(startDate, endDate);
   } catch (error) {

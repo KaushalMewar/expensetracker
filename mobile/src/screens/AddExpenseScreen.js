@@ -48,9 +48,6 @@ const AddExpenseScreen = ({ navigation }) => {
       // Create a proper datetime for the selected date (current time on that date)
       const now = new Date();
       const selectedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
-      console.log('Selected date object:', selectedDate);
-      console.log('Selected date ISO string:', selectedDate.toISOString());
-      console.log('Selected date local string:', selectedDate.toLocaleDateString());
       
       await addExpense(selectedDate, category, parseFloat(amount), comment);
       
@@ -136,7 +133,6 @@ const AddExpenseScreen = ({ navigation }) => {
                 style={styles.dateButton}
                 onPress={() => {
                   try {
-                    console.log('Opening DatePicker with date:', date);
                     setShowDatePicker(true);
                   } catch (error) {
                     console.error('Error opening DatePicker:', error);
@@ -159,7 +155,6 @@ const AddExpenseScreen = ({ navigation }) => {
               mode="date"
               onConfirm={(selectedDate) => {
                 try {
-                  console.log('DatePicker - Selected date:', selectedDate);
                   setShowDatePicker(false);
                   setDate(selectedDate);
                 } catch (error) {
@@ -168,7 +163,6 @@ const AddExpenseScreen = ({ navigation }) => {
                 }
               }}
               onCancel={() => {
-                console.log('DatePicker - Cancelled');
                 setShowDatePicker(false);
               }}
               maximumDate={new Date()}
@@ -479,9 +473,9 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     backgroundColor: 'white',
-    borderRadius: 16,
-    width: '90%',
-    maxHeight: '80%',
+    borderRadius: 12,
+    width: width * 0.9,
+    maxHeight: '70%',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -492,7 +486,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalContent: {
-    padding: 20,
+    padding: 16,
   },
   modalHeader: {
     flexDirection: 'row',
@@ -509,7 +503,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   categoryList: {
-    maxHeight: 500,
+    maxHeight: 400,
   },
   categorySection: {
     marginBottom: 16,
@@ -520,8 +514,7 @@ const styles = StyleSheet.create({
     color: '#666',
     backgroundColor: '#f5f5f5',
     padding: 12,
-    borderRadius: 8,
-    marginBottom: 8,
+    marginTop: 8,
   },
   categoryItem: {
     padding: 16,

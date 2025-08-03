@@ -14,6 +14,7 @@ import {
   Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useFocusEffect } from '@react-navigation/native';
 import { 
   getExpenses, 
   deleteExpense, 
@@ -43,15 +44,25 @@ const HistoryScreen = ({ navigation }) => {
     loadExpenses();
   }, []);
 
+  // Refresh data when screen comes into focus
+  useFocusEffect(
+    React.useCallback(() => {
+      loadExpenses();
+    }, [])
+  );
+
   useEffect(() => {
     loadFilteredExpenses();
-  }, [selectedCategory, selectedTimeFilter, searchQuery]);
+  }, [selectedCategory, selectedTimeFilter, searchQuery, expenses]);
 
   const loadExpenses = async () => {
     try {
       setLoading(true);
       const data = await getExpenses();
       setExpenses(data);
+      
+      // After loading expenses, also refresh filtered expenses
+      await loadFilteredExpenses();
     } catch (error) {
       Alert.alert('Error', 'Failed to load expenses');
       console.error('Error loading expenses:', error);
@@ -62,11 +73,6 @@ const HistoryScreen = ({ navigation }) => {
 
   const loadFilteredExpenses = async () => {
     try {
-      console.log('=== LOADING FILTERED EXPENSES (HISTORY) ===');
-      console.log('Category filter:', selectedCategory);
-      console.log('Time filter:', selectedTimeFilter);
-      console.log('Search query:', searchQuery);
-      
       let data;
       
       // Handle category filtering
@@ -107,9 +113,6 @@ const HistoryScreen = ({ navigation }) => {
       // Calculate total amount
       const total = data.reduce((sum, expense) => sum + parseFloat(expense.amount), 0);
       setTotalAmount(total);
-      
-      console.log('Filtered expenses loaded:', data.length);
-      console.log('Total amount:', total);
     } catch (error) {
       console.error('Error loading filtered expenses:', error);
       Alert.alert('Error', 'Failed to load filtered expenses');
