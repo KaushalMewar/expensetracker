@@ -56,6 +56,13 @@ export const getExpenses = async () => {
       });
     });
     
+    // Sort by date descending on client side (most recent first)
+    expenses.sort((a, b) => {
+      const dateA = a.date && a.date.toDate ? a.date.toDate() : new Date(a.date);
+      const dateB = b.date && b.date.toDate ? b.date.toDate() : new Date(b.date);
+      return dateB - dateA; // Descending order (newest first)
+    });
+    
     return expenses;
   } catch (error) {
     console.error('Error getting expenses: ', error);
@@ -73,8 +80,7 @@ export const getExpensesByDateRange = async (startDate, endDate) => {
     const q = query(
       collection(db, 'expenses'),
       where('date', '>=', startTimestamp),
-      where('date', '<=', endTimestamp),
-      orderBy('date', 'desc')
+      where('date', '<=', endTimestamp)
     );
     
     const querySnapshot = await getDocs(q);
@@ -86,6 +92,13 @@ export const getExpensesByDateRange = async (startDate, endDate) => {
         id: doc.id,
         ...data
       });
+    });
+    
+    // Sort by date descending on client side
+    expenses.sort((a, b) => {
+      const dateA = a.date && a.date.toDate ? a.date.toDate() : new Date(a.date);
+      const dateB = b.date && b.date.toDate ? b.date.toDate() : new Date(b.date);
+      return dateB - dateA;
     });
     
     return expenses;
@@ -100,8 +113,7 @@ export const getExpensesByCategory = async (category) => {
   try {
     const q = query(
       collection(db, 'expenses'),
-      where('category', '==', category),
-      orderBy('createdAt', 'desc')
+      where('category', '==', category)
     );
     
     const querySnapshot = await getDocs(q);
@@ -113,6 +125,13 @@ export const getExpensesByCategory = async (category) => {
         id: doc.id,
         ...data
       });
+    });
+    
+    // Sort by date descending on client side
+    expenses.sort((a, b) => {
+      const dateA = a.date && a.date.toDate ? a.date.toDate() : new Date(a.date);
+      const dateB = b.date && b.date.toDate ? b.date.toDate() : new Date(b.date);
+      return dateB - dateA;
     });
     
     return expenses;
@@ -133,8 +152,7 @@ export const getExpensesByDateRangeAndCategory = async (startDate, endDate, cate
       collection(db, 'expenses'),
       where('date', '>=', startTimestamp),
       where('date', '<=', endTimestamp),
-      where('category', '==', category),
-      orderBy('date', 'desc')
+      where('category', '==', category)
     );
     
     const querySnapshot = await getDocs(q);
@@ -146,6 +164,13 @@ export const getExpensesByDateRangeAndCategory = async (startDate, endDate, cate
         id: doc.id,
         ...data
       });
+    });
+    
+    // Sort by date descending on client side
+    expenses.sort((a, b) => {
+      const dateA = a.date && a.date.toDate ? a.date.toDate() : new Date(a.date);
+      const dateB = b.date && b.date.toDate ? b.date.toDate() : new Date(b.date);
+      return dateB - dateA;
     });
     
     return expenses;
@@ -179,11 +204,42 @@ export const getExpensesByTimeFilter = async (timeFilter) => {
         endDate.setHours(23, 59, 59, 999);
         break;
         
+      case 'LAST_WEEK':
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - today.getDay() - 7);
+        startDate.setHours(0, 0, 0, 0);
+        endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + 6);
+        endDate.setHours(23, 59, 59, 999);
+        break;
+        
       case 'MONTHLY':
         startDate = new Date(now.getFullYear(), now.getMonth(), 1);
         startDate.setHours(0, 0, 0, 0);
         const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
         endDate = new Date(now.getFullYear(), now.getMonth(), lastDayOfMonth);
+        endDate.setHours(23, 59, 59, 999);
+        break;
+        
+      case 'LAST_MONTH':
+        startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        startDate.setHours(0, 0, 0, 0);
+        const lastDayOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+        endDate = new Date(now.getFullYear(), now.getMonth() - 1, lastDayOfLastMonth);
+        endDate.setHours(23, 59, 59, 999);
+        break;
+        
+      case 'LAST_3_MONTHS':
+        startDate = new Date(now.getFullYear(), now.getMonth() - 3, 1);
+        startDate.setHours(0, 0, 0, 0);
+        endDate = new Date(now.getFullYear(), now.getMonth(), 0);
+        endDate.setHours(23, 59, 59, 999);
+        break;
+        
+      case 'LAST_6_MONTHS':
+        startDate = new Date(now.getFullYear(), now.getMonth() - 6, 1);
+        startDate.setHours(0, 0, 0, 0);
+        endDate = new Date(now.getFullYear(), now.getMonth(), 0);
         endDate.setHours(23, 59, 59, 999);
         break;
         

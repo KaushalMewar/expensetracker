@@ -2,45 +2,62 @@
 
 A comprehensive mobile expense tracking application built with React Native and Firebase.
 
+## 📱 App Screens
+
+The Expense Tracker app features the following main screens:
+
+### Dashboard Screen
+- **Budget Progress**: Circular progress indicator showing 54% of budget used
+- **Expense Summary**: Actual expense ₹26,890.21 vs Budget ₹50,000.00
+- **Total Statistics**: 5 transactions across 3 categories
+- **Time Filters**: DAILY, WEEKLY, MONTHLY, YEAR selection
+- **Expense Distribution**: Interactive pie chart with category breakdown
+- **Monthly Comparison**: Line chart showing expenses vs budget over time
+
+### Add Expense Screen
+- **Date Picker**: Easy date selection with calendar interface
+- **Category Selection**: Dropdown with Needs/Wants categorization
+- **Amount Input**: Currency-formatted input with ₹ symbol
+- **Optional Comments**: Multi-line text area for expense notes
+- **Form Validation**: Real-time validation and error handling
+
+### History Screen
+- **Search Functionality**: Real-time search across all expense fields
+- **Advanced Filtering**: Category and time period filters
+- **Expense List**: Detailed view with edit/delete actions
+- **Total Summary**: Quick overview of total expenses and count
+- **Action Buttons**: Edit and delete options for each expense
+
+### Edit Expense Screen
+- **Pre-filled Form**: All expense details loaded for editing
+- **Same Interface**: Consistent with Add Expense screen
+- **Update Functionality**: Save changes with validation
+- **Navigation**: Easy return to History screen
+
+### Budget Management Screen
+- **Add Budget**: Month/Year selection with amount input
+- **Budget List**: View and manage existing budgets
+- **Edit/Delete**: Full CRUD operations for budgets
+- **Visual Feedback**: Clear budget status and progress
+
+> **Note**: Screenshots can be added to the `screenshots/` directory for visual documentation.
+
 ## 🚀 Features
 
 ### Core Features
 - **Expense Management**: Add, edit, and delete expenses with categories
 - **Dashboard Analytics**: Visual charts showing expense distribution and trends
-- **Budget Tracking**: Set and monitor monthly budgets
-- **History & Search**: View and filter expense history with search functionality
+- **Budget Tracking**: Set and monitor monthly budgets with progress indicators
+- **History & Search**: View and filter expense history with advanced search
 - **Real-time Sync**: Firebase integration for cloud data synchronization
+- **Offline Support**: Basic offline functionality with local storage
 
 ### Technical Features
 - **Cross-platform**: Works on both Android and iOS
-- **Offline Support**: Basic offline functionality with local storage
 - **Responsive Design**: Optimized for various screen sizes
 - **Modern UI**: Clean, intuitive interface with smooth animations
-
-## 📱 Screenshots
-
-### Dashboard
-- Expense distribution pie chart
-- Monthly budget vs actual spending
-- Quick statistics and summaries
-- Time-based filtering (Daily, Weekly, Monthly, Year)
-
-### Add/Edit Expenses
-- Date picker with validation
-- Category selection (Needs vs Wants)
-- Amount input with currency formatting
-- Optional comments/notes
-
-### History & Search
-- Comprehensive expense history
-- Advanced filtering by category and time
-- Search functionality
-- Edit and delete capabilities
-
-### Budget Management
-- Monthly budget setting
-- Budget vs actual spending tracking
-- Visual progress indicators
+- **Performance Optimized**: Fast loading and smooth interactions
+- **Data Validation**: Comprehensive input validation and error handling
 
 ## 🛠️ Technology Stack
 
@@ -50,13 +67,13 @@ A comprehensive mobile expense tracking application built with React Native and 
 - **Charts**: React Native Chart Kit
 - **Icons**: React Native Vector Icons
 - **Date Picking**: React Native Date Picker
+- **State Management**: React Hooks and Context
 
 ## 📋 Requirements
 
 - Node.js >= 16
 - React Native CLI
 - Android Studio (for Android development)
-- Xcode (for iOS development, macOS only)
 
 ## 🚀 Installation
 
@@ -80,9 +97,6 @@ A comprehensive mobile expense tracking application built with React Native and 
    ```bash
    # For Android
    npm run android
-   
-   # For iOS (macOS only)
-   npm run ios
    ```
 
 ## 🔧 Configuration
@@ -126,13 +140,15 @@ npm run lint
 - **Startup Time**: < 3 seconds
 - **Memory Usage**: Optimized for low-end devices
 - **Battery Usage**: Minimal background processing
+- **Offline Cache**: 50MB for offline functionality
 
 ## 🔒 Security
 
 - Firebase Authentication ready (not implemented in beta)
-- Secure Firestore rules
+- Secure Firestore rules with data validation
 - Input validation on all forms
 - Error handling for network issues
+- Data sanitization and type checking
 
 ## 🐛 Known Issues (Beta)
 
@@ -141,21 +157,6 @@ npm run lint
 - No data export functionality
 - No backup/restore features
 
-## 📈 Roadmap
-
-### v1.0 (Production)
-- [ ] User authentication
-- [ ] Multi-user support
-- [ ] Data export (CSV/PDF)
-- [ ] Backup/restore functionality
-- [ ] Push notifications
-- [ ] Advanced analytics
-
-### v1.1
-- [ ] Receipt scanning
-- [ ] Recurring expenses
-- [ ] Budget alerts
-- [ ] Dark mode
 
 ## 🤝 Contributing
 

@@ -55,6 +55,13 @@ const HistoryScreen = ({ navigation }) => {
     loadFilteredExpenses();
   }, [selectedCategory, selectedTimeFilter, searchQuery, expenses]);
 
+  // Reset category to 'All Categories' when time filter changes
+  useEffect(() => {
+    if (selectedCategory !== 'All Categories') {
+      setSelectedCategory('All Categories');
+    }
+  }, [selectedTimeFilter]);
+
   const loadExpenses = async () => {
     try {
       setLoading(true);
@@ -75,28 +82,39 @@ const HistoryScreen = ({ navigation }) => {
     try {
       let data;
       
-      // Handle category filtering
+      // First, get data based on time filter
+      switch (selectedTimeFilter) {
+        case 'This Month':
+          data = await getExpensesByTimeFilter('MONTHLY');
+          break;
+        case 'This Week':
+          data = await getExpensesByTimeFilter('WEEKLY');
+          break;
+        case 'Last Week':
+          data = await getExpensesByTimeFilter('LAST_WEEK');
+          break;
+        case 'Last Month':
+          data = await getExpensesByTimeFilter('LAST_MONTH');
+          break;
+        case 'Last 3 Months':
+          data = await getExpensesByTimeFilter('LAST_3_MONTHS');
+          break;
+        case 'Last 6 Months':
+          data = await getExpensesByTimeFilter('LAST_6_MONTHS');
+          break;
+        case 'This Year':
+          data = await getExpensesByTimeFilter('YEAR');
+          break;
+        case 'All Time':
+          data = await getExpenses();
+          break;
+        default:
+          data = await getExpensesByTimeFilter('MONTHLY');
+      }
+      
+      // Then apply category filter if not 'All Categories'
       if (selectedCategory !== 'All Categories') {
-        // If category is selected, use category-based filtering
-        data = await getExpensesByCategory(selectedCategory);
-      } else {
-        // If no category filter, use time-based filtering
-        switch (selectedTimeFilter) {
-          case 'This Month':
-            data = await getExpensesByTimeFilter('MONTHLY');
-            break;
-          case 'This Week':
-            data = await getExpensesByTimeFilter('WEEKLY');
-            break;
-          case 'This Year':
-            data = await getExpensesByTimeFilter('YEAR');
-            break;
-          case 'All Time':
-            data = await getExpenses();
-            break;
-          default:
-            data = await getExpensesByTimeFilter('MONTHLY');
-        }
+        data = data.filter(expense => expense.category === selectedCategory);
       }
       
       // Apply search filter locally (since it's text-based)
@@ -107,6 +125,13 @@ const HistoryScreen = ({ navigation }) => {
           expense.amount.toString().includes(searchQuery)
         );
       }
+      
+      // Ensure data is sorted by date in descending order (most recent first)
+      data.sort((a, b) => {
+        const dateA = a.date && a.date.toDate ? a.date.toDate() : new Date(a.date);
+        const dateB = b.date && b.date.toDate ? b.date.toDate() : new Date(b.date);
+        return dateB - dateA; // Descending order (newest first)
+      });
       
       setFilteredExpenses(data);
       
@@ -404,6 +429,10 @@ const HistoryScreen = ({ navigation }) => {
                     style={styles.pickerItem}
                     onPress={() => {
                       setSelectedTimeFilter(period);
+                      // Reset category to 'All Categories' when time filter changes
+                      if (selectedCategory !== 'All Categories') {
+                        setSelectedCategory('All Categories');
+                      }
                       setShowTimeFilterPicker(false);
                     }}
                   >

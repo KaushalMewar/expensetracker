@@ -290,9 +290,9 @@ const DashboardScreen = () => {
   };
 
   const getPieChartData = () => {
-    // Use all expenses for pie chart, not filtered expenses
+    // Use filtered expenses for pie chart based on time filter
     const categoryTotals = {};
-    expenses.forEach(expense => {
+    filteredExpenses.forEach(expense => {
       categoryTotals[expense.category] = (categoryTotals[expense.category] || 0) + expense.amount;
     });
 
@@ -582,7 +582,7 @@ const DashboardScreen = () => {
                 activeOpacity={1}
                 onPress={handleOutsidePress}
               >
-                <Text style={styles.chartTitle}>Expense Distribution</Text>
+                <Text style={styles.chartTitle}>Expense Distribution ({selectedTimeFilter})</Text>
                                 {filteredExpenses.length > 0 ? (
                   <>
                     <View style={styles.chartContainer}>
@@ -592,9 +592,9 @@ const DashboardScreen = () => {
                           return (
                             <View style={styles.pieChartEmptyState}>
                               <Icon name="pie-chart" size={64} color="#ccc" />
-                              <Text style={styles.pieChartEmptyText}>No data to display</Text>
+                              <Text style={styles.pieChartEmptyText}>No expenses found for {selectedTimeFilter}</Text>
                               <Text style={styles.pieChartEmptySubtext}>
-                                Add some expenses to see your distribution
+                                Try selecting a different time period or add some expenses
                               </Text>
                             </View>
                           );
@@ -667,9 +667,9 @@ const DashboardScreen = () => {
                 ) : (
                   <View style={styles.pieChartEmptyState}>
                     <Icon name="pie-chart" size={64} color="#ccc" />
-                    <Text style={styles.pieChartEmptyText}>No expenses found</Text>
+                    <Text style={styles.pieChartEmptyText}>No expenses found for {selectedTimeFilter}</Text>
                     <Text style={styles.pieChartEmptySubtext}>
-                      Add some expenses to see your distribution
+                      Try selecting a different time period or add some expenses
                     </Text>
                   </View>
                 )}
