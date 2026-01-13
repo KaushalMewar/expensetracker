@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Main document/receipt background -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,25 L78,25 A4,4 0,0 1,82 29 L82,75 A4,4 0,0 1,78 79 L30,79 A4,4 0,0 1,26 75 L26,29 A4,4 0,0 1,30 25z" />
+    
+    <!-- Second overlapping document -->
+    <path
+        android:fillColor="#F5F5F5"
+        android:pathData="M35,30 L83,30 A3,3 0,0 1,86 33 L86,79 A3,3 0,0 1,83 82 L35,82 A3,3 0,0 1,32 79 L32,33 A3,3 0,0 1,35 30z" />
+    
+    <!-- Indian Rupee Symbol (₹) -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M45,35 L63,35 A2,2 0,0 1,65 37 L65,39 A2,2 0,0 1,63 41 L45,41 A2,2 0,0 1,43 39 L43,37 A2,2 0,0 1,45 35z" />
+    
+    <!-- Rupee symbol horizontal line -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M45,43 L63,43 A2,2 0,0 1,65 45 L65,47 A2,2 0,0 1,63 49 L45,49 A2,2 0,0 1,43 47 L43,45 A2,2 0,0 1,45 43z" />
+    
+    <!-- Rupee symbol vertical line -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M52,37 L56,37 A1,1 0,0 1,57 38 L57,48 A1,1 0,0 1,56 49 L52,49 A1,1 0,0 1,51 48 L51,38 A1,1 0,0 1,52 37z" />
+    
+    <!-- Small bar chart bars -->
+    <path
+        android:fillColor="#FF9800"
+        android:pathData="M48,55 L50,55 A1,1 0,0 1,51 56 L51,62 A1,1 0,0 1,50 63 L48,63 A1,1 0,0 1,47 62 L47,56 A1,1 0,0 1,48 55z" />
+    
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M52,55 L54,55 A1,1 0,0 1,55 56 L55,65 A1,1 0,0 1,54 66 L52,66 A1,1 0,0 1,51 65 L51,56 A1,1 0,0 1,52 55z" />
+    
+    <path
+        android:fillColor="#2196F3"
+        android:pathData="M56,55 L58,55 A1,1 0,0 1,59 56 L59,68 A1,1 0,0 1,58 69 L56,69 A1,1 0,0 1,55 68 L55,56 A1,1 0,0 1,56 55z" />
+    
+    <!-- Line graph trend -->
+    <path
+        android:fillColor="#FF5722"
+        android:pathData="M60,55 L62,55 A0.5,0.5 0,0 1,62.5 55.5 L62.5,56.5 A0.5,0.5 0,0 1,62 57 L60,57 A0.5,0.5 0,0 1,59.5 56.5 L59.5,55.5 A0.5,0.5 0,0 1,60 55z" />
+    
+    <path
+        android:fillColor="#FF5722"
+        android:pathData="M62,57 L64,57 A0.5,0.5 0,0 1,64.5 57.5 L64.5,58.5 A0.5,0.5 0,0 1,64 59 L62,59 A0.5,0.5 0,0 1,61.5 58.5 L61.5,57.5 A0.5,0.5 0,0 1,62 57z" />
+    
+    <path
+        android:fillColor="#FF5722"
+        android:pathData="M64,59 L66,59 A0.5,0.5 0,0 1,66.5 59.5 L66.5,60.5 A0.5,0.5 0,0 1,66 61 L64,61 A0.5,0.5 0,0 1,63.5 60.5 L63.5,59.5 A0.5,0.5 0,0 1,64 59z" />
+    
+    <!-- Document lines -->
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M48,70 L70,70 A0.5,0.5 0,0 1,70.5 70.5 L70.5,71.5 A0.5,0.5 0,0 1,70 72 L48,72 A0.5,0.5 0,0 1,47.5 71.5 L47.5,70.5 A0.5,0.5 0,0 1,48 70z" />
+    
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M48,73 L65,73 A0.5,0.5 0,0 1,65.5 73.5 L65.5,74.5 A0.5,0.5 0,0 1,65 75 L48,75 A0.5,0.5 0,0 1,47.5 74.5 L47.5,73.5 A0.5,0.5 0,0 1,48 73z" />
+    
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M48,76 L68,76 A0.5,0.5 0,0 1,68.5 76.5 L68.5,77.5 A0.5,0.5 0,0 1,68 78 L48,78 A0.5,0.5 0,0 1,47.5 77.5 L47.5,76.5 A0.5,0.5 0,0 1,48 76z" />
+    
+</vector> 
